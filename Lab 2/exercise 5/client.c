@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "data_struct.h"
 int main()
 {
 
@@ -38,20 +39,32 @@ int main()
 		}
 	}
 	printf("fifo2 just opened\n");
-
+		
 	while (1)
-	{
-
+	{	
+		message_type message_type;
 		// manda string do nome da funcao
 		printf("f1() ou f2()\n");
 		do
 		{
-			fgets(str, 100, stdin);
+			fgets(message_type.f_name, 100, stdin);
 			str[strlen(str) - 1] = '\0';
-		} while (strcmp(str, "f1") && strcmp(str, "f2"));
+		} while (strcmp(message_type.f_name, "f1") && strcmp(message_type.f_name, "f2") && strcmp(message_type.f_name, "f3"));
 
-		write(fd, str, 100);
-
+		if (!strcmp(message_type.f_name, "f3")){
+			message_type.funct_type = 0;
+			fgets(str, 100, stdin);
+			sscanf(str, "%d", &n);
+			message_type.arg = n;
+		}else {
+			message_type.funct_type = 1;
+			message_type.arg = " ";
+		}
+		write(fd, message_type.f_name, 100);
+		
+		
+		
+		write(fd, &n, sizeof(n));
 		// recebe o nome da funcao, executa e dá print
 		// n é str da func
 		n = read(fd2, &i, 100);
