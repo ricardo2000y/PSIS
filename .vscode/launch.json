@@ -1,0 +1,200 @@
+/*******************************************************************************
+ *
+ * File Name: launch.json
+ *
+ * Authors:
+ *      Diogo Lemos Fernandes (ist190056)
+ *      Tiago Lopes Rocha (ist190194)
+ *      Microsoft
+ *
+ * DESCRIPTION
+ *      Define VS Code Debug process
+ *
+ *      // Use IntelliSense to learn about possible attributes.
+ *      // Hover to view descriptions of existing attributes.
+ *      // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+ *
+ ******************************************************************************/
+{
+    "version": "0.2.0",
+    "configurations": [
+        { // Lab01/1&2
+            "name": "Lab01/1&2",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab01/code/exercise_1e2/lab01_1e2",
+            "args": [
+                "${input:runArg01}",
+                "${input:runArg02}",
+                "${input:runArg03}",
+                "${input:runArg04}"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab01/code/exercise_1e2/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab01/1&2 from Makefile"
+        },
+        { // Lab01/3
+            "name": "Lab01/3",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab01/code/exercise_3/lab01_3",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab01/code/exercise_3/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab01/3 from Makefile"
+        },
+        { // Lab01/4
+            "name": "Lab01/4",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab01/code/exercise_4/lab01_4",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab01/code/exercise_4/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab01/4 from gcc"
+        },
+        { // Lab02/fifo-example-read
+            "name": "Lab02/fifo-example-read",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab02/code/fifo-example/fifo-read",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab02/code/fifo-example/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab02/fifo-example from Makefile"
+        },
+        { // Lab02/fifo-example-write
+            "name": "Lab02/fifo-example-write",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab02/code/fifo-example/fifo-write",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab02/code/fifo-example/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab02/fifo-example from Makefile"
+        },
+        { // Lab02/3-server
+            "name": "Lab02/3-server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab02/code/exercise_3/execution-server",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab02/code/exercise_3/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab02/3 from Makefile"
+        },
+        { // Lab02/3-client
+            "name": "Lab02/3-client",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/lab02/code/exercise_3/execution-client",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/lab02/code/exercise_3/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb", // run '$whereis gdb' to obtain this directory
+            "preLaunchTask": "Build Lab02/3 from Makefile"
+        }
+    ],
+    "inputs": [
+        { // input:runArg01
+            "id": "runArg01",
+            "type": "promptString",
+            "description": "Run time argument",
+            "default": ""
+        },
+        { // input:runArg02
+            "id": "runArg02",
+            "type": "promptString",
+            "description": "Run time argument",
+            "default": ""
+        },
+        { // input:runArg03
+            "id": "runArg03",
+            "type": "promptString",
+            "description": "Run time argument",
+            "default": ""
+        },
+        { // input:runArg04
+            "id": "runArg04",
+            "type": "promptString",
+            "description": "Run time argument",
+            "default": ""
+        },
+    ]
+}
