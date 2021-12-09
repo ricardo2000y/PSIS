@@ -46,14 +46,15 @@ int main()
 	{
 		// recebe o nome da funcao, executa e dá print
 		// n é str da func
-
-		n = read(fd, str, 100);
+		message_type message;
+		n = read(fd, &message, sizeof(message));
 		if (n <= 0)
 		{
 			perror("read ");
 			exit(-1);
 		}
-
+		printf("%s\n", message.f_name);
+		strcpy(str, message.f_name);
 		if (!strcmp(str, "f1"))
 		{
 			k = f1();
@@ -62,6 +63,11 @@ int main()
 		else if (!strcmp(str, "f2"))
 		{
 			k = f2();
+			write(fd2, &k, 100);
+		}
+		else
+		{
+			k = f3(message.arg);
 			write(fd2, &k, 100);
 		}
 

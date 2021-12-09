@@ -39,32 +39,32 @@ int main()
 		}
 	}
 	printf("fifo2 just opened\n");
-		
+
 	while (1)
-	{	
-		message_type message_type;
+	{
+		message_type message;
 		// manda string do nome da funcao
-		printf("f1() ou f2()\n");
+		printf("Insira a função que pretende correr: \n\nf1\tou\tf2\tou\tf3\n");
 		do
 		{
-			fgets(message_type.f_name, 100, stdin);
-			str[strlen(str) - 1] = '\0';
-		} while (strcmp(message_type.f_name, "f1") && strcmp(message_type.f_name, "f2") && strcmp(message_type.f_name, "f3"));
+			fgets(message.f_name, 100, stdin);
+			message.f_name[strlen(message.f_name) - 1] = '\0';
+		} while (strcmp(message.f_name, "f1") && strcmp(message.f_name, "f2") && strcmp(message.f_name, "f3"));
 
-		if (!strcmp(message_type.f_name, "f3")){
-			message_type.funct_type = 0;
+		if (!strcmp(message.f_name, "f3"))
+		{
+			message.funct_type = 0;
+			printf("Insira um argumento inteiro:\n");
 			fgets(str, 100, stdin);
 			sscanf(str, "%d", &n);
-			message_type.arg = n;
-		}else {
-			message_type.funct_type = 1;
-			message_type.arg = " ";
+			message.arg = n;
+		}else
+		{
+			message.funct_type = 1;
+			message.arg = 0;
 		}
-		write(fd, message_type.f_name, 100);
-		
-		
-		
-		write(fd, &n, sizeof(n));
+		write(fd, &message, sizeof(message));
+
 		// recebe o nome da funcao, executa e dá print
 		// n é str da func
 		n = read(fd2, &i, 100);
@@ -73,6 +73,7 @@ int main()
 			perror("read ");
 			exit(-1);
 		}
-		printf("%d\n\n", i);
+		printf("RESPOSTA:\n\t%d\n\n", i);
+		
 	}
 }

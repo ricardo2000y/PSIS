@@ -30,7 +30,7 @@ CLIENT_NAME = CLIENT
 PROG_NAME = $(SERVER_NAME) $(CLIENT_NAME)
 # Dependencies
 SERVER_OBJS = server.o 
-SERVER_SOURCES =server.c funcs.c
+SERVER_SOURCES =server.c funcs.c 
 
 CLIENT_OBJS = client.o
 CLIENT_SOURCES = client.c 
