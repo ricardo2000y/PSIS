@@ -58,7 +58,8 @@ int main()
 			fgets(str, 100, stdin);
 			sscanf(str, "%d", &n);
 			message.arg = n;
-		}else
+		}
+		else
 		{
 			message.funct_type = 1;
 			message.arg = 0;
@@ -74,6 +75,5 @@ int main()
 			exit(-1);
 		}
 		printf("RESPOSTA:\n\t%d\n\n", i);
-		
 	}
 }
