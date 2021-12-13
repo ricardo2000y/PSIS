@@ -10,7 +10,7 @@
 
 int main()
 {
-    connection m;
+    message connection, movement;
     int fd;
     
     //TODO_4
@@ -33,9 +33,9 @@ int main()
     //TODO_5
     // read the character from the user
     printf("write a character:\n");
-    fgets(m.ch, sizeof(m.ch), stdin);
-    m.ch[strlen(m.ch) - 1] = '\0';
-    write(fd, &m, sizeof(m));
+    fgets(connection.ch, sizeof(connection.ch), stdin);
+    //m.ch[strlen(m.ch) - 1] = '\0';
+    write(fd, &connection, sizeof(connection));
 
     // TODO_6
     // send connection message
@@ -47,7 +47,7 @@ int main()
 
     int ch;
 
-    m.msg_type = 1;
+    movement.msg_type = 1;
     int n = 0;
     do
     {

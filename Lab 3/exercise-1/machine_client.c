@@ -13,7 +13,7 @@ int main()
     int sleep_delay;
     direction_t direction;
     int n = 0;
-    connection m;
+    message connection,movement;
     //TODO_4
 
     int fd;
@@ -34,9 +34,9 @@ int main()
     //TODO_5
     // machine will generate a random character and send to the server making the connection
     char random_letter_gen = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
-    strcpy(m.ch, &random_letter_gen);
-    m.ch[strlen(m.ch) - 1] = '\0';
-    write(fd, &m, sizeof(m));
+    strcpy(connection.ch, &random_letter_gen);
+    //m.ch[strlen(m.ch) - 1] = '\0';
+    write(fd, &connection, sizeof(connection));
 
     // TODO_6
 

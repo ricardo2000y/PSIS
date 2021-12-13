@@ -12,6 +12,7 @@ direction_t random_direction()
 {
     return random() % 4;
 }
+
 void new_position(int *x, int *y, direction_t direction)
 {
     switch (direction)
@@ -71,24 +72,37 @@ int main()
     WINDOW *my_win = newwin(WINDOW_SIZE, WINDOW_SIZE, 0, 0);
     box(my_win, 0, 0);
     wrefresh(my_win);
-
+    
     /* information about the character */
     int ch;
     int pos_x;
     int pos_y;
-
+    int n;
     direction_t direction;
-
+    message m_recieved;
     while (1)
-    {
+    {   
         // TODO_7
         // receive message from the clients
+        n = read(fd, &m_recieved, sizeof(m_recieved));
+		if (n <= 0)
+		{
+			perror("read ");
+			exit(-1);
+		}
 
         //TODO_8
         // process connection messages
+        if (m_recieved.msg_type == 0){
+
+            //escreve o caratér numa posição random (usar função acima)
+        }
 
         // TODO_11
         // process the movement message
+        else{ //(m_recieved.msg_type == 1 )
+            // recebe a seta e faz deslocação nesse sentido( usar função acima)
+        }
 
         /* draw mark on new position */
         wmove(my_win, pos_x, pos_y);
