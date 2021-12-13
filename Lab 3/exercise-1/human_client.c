@@ -33,7 +33,7 @@ int main()
     //TODO_5
     // read the character from the user
     printf("write a character:\n");
-    fgets(connection.ch, sizeof(connection.ch), stdin);
+    fgets(&connection.ch, sizeof(connection.ch), stdin);
     //m.ch[strlen(m.ch) - 1] = '\0';
     write(fd, &connection, sizeof(connection));
 

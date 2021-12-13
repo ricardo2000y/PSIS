@@ -33,19 +33,18 @@ int main()
 
     //TODO_5
     // machine will generate a random character and send to the server making the connection
-    char random_letter_gen = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
-    strcpy(connection.ch, &random_letter_gen);
-    //m.ch[strlen(m.ch) - 1] = '\0';
+    connection.ch = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
     write(fd, &connection, sizeof(connection));
 
     // TODO_6
-
+    movement.msg_type = 1;
     while (1)
     {
         sleep_delay = random() % 700000;
         usleep(sleep_delay);
         direction = random() % 4;
         n++;
+        
         switch (direction)
         {
         case LEFT:
@@ -62,6 +61,7 @@ int main()
             break;
         }
         //TODO_9
+        // movement is adding the arrow typed to the movement.ch
         //TODO_10
     }
 
