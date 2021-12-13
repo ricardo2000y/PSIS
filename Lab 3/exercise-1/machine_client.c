@@ -17,7 +17,6 @@ int main()
     //TODO_4
 
     int fd;
-    int str[100];
     while ((fd = open(fifo_loc, O_WRONLY)) == -1)
     {
         if (mkfifo(fifo_loc, 0666) != 0)
@@ -35,7 +34,7 @@ int main()
     //TODO_5
     // machine will generate a random character and send to the server making the connection
     char random_letter_gen = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
-    strcpy(m.ch, random_letter_gen);
+    strcpy(m.ch, &random_letter_gen);
     m.ch[strlen(m.ch) - 1] = '\0';
     write(fd, &m, sizeof(m));
 

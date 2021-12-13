@@ -6,12 +6,13 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main()
 {
     connection m;
     int fd;
-    int str[100];
+    
     //TODO_4
     // create and open the FIFO for writing
 
