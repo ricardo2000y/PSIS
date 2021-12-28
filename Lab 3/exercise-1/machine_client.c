@@ -13,7 +13,7 @@ int main()
     int sleep_delay;
     direction_t direction;
     int n = 0;
-    message connection,movement;
+    message connection, movement;
     //TODO_4
 
     int fd;
@@ -34,30 +34,36 @@ int main()
     //TODO_5
     // machine will generate a random character and send to the server making the connection
     connection.ch = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
+    connection.msg_type = 0;
     write(fd, &connection, sizeof(connection));
 
     // TODO_6
     movement.msg_type = 1;
+
     while (1)
     {
         sleep_delay = random() % 700000;
         usleep(sleep_delay);
         direction = random() % 4;
         n++;
-        
+
         switch (direction)
         {
         case LEFT:
             printf("%d Going Left   ", n);
+            movement.direction = LEFT;
             break;
         case RIGHT:
             printf("%d Going Right   ", n);
+            movement.direction = RIGHT;
             break;
         case DOWN:
             printf("%d Going Down   ", n);
+            movement.direction = DOWN;
             break;
         case UP:
             printf("%d Going Up    ", n);
+            movement.direction = UP;
             break;
         }
         //TODO_9

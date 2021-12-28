@@ -27,8 +27,8 @@ SO_CTRASH = $(addprefix , $(C_TRASH))
 # Executables
 SERVER_NAME = SERVER
 HUMAN_CLIENT_NAME = HUMAN
-MACHINE_CLIENT_NAME = MACHINE
-PROG_NAME = $(SERVER_NAME) $(HUMAN_CLIENT_NAME) $(MACHINE_CLIENT_NAME)
+#MACHINE_CLIENT_NAME = MACHINE
+PROG_NAME = $(SERVER_NAME) $(HUMAN_CLIENT_NAME) #$(MACHINE_CLIENT_NAME)
 # Dependencies
 SERVER_OBJS = server.o 
 SERVER_SOURCES =server.c 
@@ -36,8 +36,8 @@ SERVER_SOURCES =server.c
 HUMAN_CLIENT_OBJS = human_client.o
 HUMAN_CLIENT_SOURCES = human_client.c 
 
-MACHINE_CLIENT_OBJS = machine_client.o
-MACHINE_CLIENT_SOURCES = machine_client.c 
+#MACHINE_CLIENT_OBJS = machine_client.o
+#MACHINE_CLIENT_SOURCES = machine_client.c 
 
 ################################################################################
 #                           Default and Common Tasks                           #
@@ -54,8 +54,8 @@ $(SERVER_NAME):  $(SERVER_OBJS)
 $(HUMAN_CLIENT_NAME):  $(HUMAN_CLIENT_OBJS)
 	$(CC) $(MODE) -L. $(CFLAGS) -o $@ $(HUMAN_CLIENT_OBJS) -lcurses -lncurses
 
-$(MACHINE_CLIENT_NAME):  $(MACHINE_CLIENT_OBJS)
-	$(CC) $(MODE) -L. $(CFLAGS) -o $@ $(MACHINE_CLIENT_OBJS) -lcurses -lncurses
+#$(MACHINE_CLIENT_NAME):  $(MACHINE_CLIENT_OBJS)
+#	$(CC) $(MODE) -L. $(CFLAGS) -o $@ $(MACHINE_CLIENT_OBJS) -lcurses -lncurses
 
 server.o: $(SERVER_SOURCES)
 	$(CC) $(MODE) $(CFLAGS) -c $< -o $@ -lcurses -lncurses
@@ -63,8 +63,8 @@ server.o: $(SERVER_SOURCES)
 human_client.o: $(HUMAN_CLIENT_SOURCES) -lcurses -lncurses
 	$(CC) $(MODE) $(CFLAGS) -c $< -o $@
 
-machine_client.o: $(MACHINE_CLIENT_SOURCES) -lcurses -lncurses
-	$(CC) $(MODE) $(CFLAGS) -c $< -o $@
+#machine_client.o: $(MACHINE_CLIENT_SOURCES) -lcurses -lncurses
+#	$(CC) $(MODE) $(CFLAGS) -c $< -o $@
 ################################################################################
 #                                   Cleaning                                   #
 ################################################################################

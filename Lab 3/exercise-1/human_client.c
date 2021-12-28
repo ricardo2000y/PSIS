@@ -32,13 +32,17 @@ int main()
 
     //TODO_5
     // read the character from the user
-    printf("write a character:\n");
-    fgets(&connection.ch, sizeof(connection.ch), stdin);
-    //m.ch[strlen(m.ch) - 1] = '\0';
-    write(fd, &connection, sizeof(connection));
+    char readch;
+    do{
+        printf("what is your character?: ");
+        readch = getchar(); 
+    }while(!isalpha(readch));
 
     // TODO_6
     // send connection message
+    connection.ch = readch; 
+    connection.msg_type = 0;
+    write(fd, &connection, sizeof(connection));
 
     initscr();            /* Start curses mode 		*/
     cbreak();             /* Line buffering disabled	*/
@@ -48,6 +52,7 @@ int main()
     int ch;
 
     movement.msg_type = 1;
+    movement.ch = connection.ch;
     int n = 0;
     do
     {
@@ -57,27 +62,31 @@ int main()
         {
         case KEY_LEFT:
             mvprintw(0, 0, "%d Left arrow is pressed", n);
+            movement.direction = LEFT; //TODO_9// prepare the movement message
             break;
         case KEY_RIGHT:
             mvprintw(0, 0, "%d Right arrow is pressed", n);
+            movement.direction = RIGHT; //TODO_9// prepare the movement message
             break;
         case KEY_DOWN:
             mvprintw(0, 0, "%d Down arrow is pressed", n);
+            movement.direction = DOWN; //TODO_9// prepare the movement message
             break;
         case KEY_UP:
-            mvprintw(0, 0, "%d :Up arrow is pressed", n);
+            mvprintw(0, 0, "%d Up arrow is pressed", n);
+            movement.direction = UP; //TODO_9// prepare the movement message
             break;
         default:
-            ch = 'x';
+            ch = 'x'; 
             break;
         }
         refresh(); /* Print it on to the real screen */
-        //TODO_9
-        // prepare the movement message
-
+        
         //TODO_10
         //send the movement message
-
+         if (ch != 'x')
+            write(fd, &movement, sizeof(movement));
+         
     } while (ch != 27);
 
     endwin(); /* End curses mode		  */

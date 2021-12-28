@@ -87,24 +87,32 @@ int main()
         n = read(fd, &m_recieved, sizeof(m_recieved));
 		if (n <= 0)
 		{
-			perror("read ");
+			perror("read");
 			exit(-1);
 		}
-
+        int k = 2;
         //TODO_8
         // process connection messages
         if (m_recieved.msg_type == 0){
-
-            //escreve o caratér numa posição random (usar função acima)
+            ch = m_recieved.ch;
+            pos_x = WINDOW_SIZE/k;
+            pos_y = WINDOW_SIZE/k;
+            k++;
+            //escreve o carater na posição pré-definida
         }
-
+        
         // TODO_11
         // process the movement message
         else{ //(m_recieved.msg_type == 1 )
-            // recebe a seta e faz deslocação nesse sentido( usar função acima)
+            // recebe a direction e faz deslocação nesse sentido( usar função acima)
+            direction = m_recieved.direction;
+            wmove(my_win, pos_x, pos_y);
+            waddch(my_win,' ');
+            new_position(&pos_x, &pos_y,  direction);
         }
 
         /* draw mark on new position */
+        
         wmove(my_win, pos_x, pos_y);
         waddch(my_win, ch | A_BOLD);
         wrefresh(my_win);
