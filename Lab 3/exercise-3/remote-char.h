@@ -6,6 +6,12 @@ typedef struct message {
     char ch;
     direction_t direction;
 }message;
+
+typedef struct  client {
+    int ch;
+    int x;
+    int y;
+}clients;
 // TODO_2
 //declaration of the FIFO location
 char const* fifo_loc= "/tmp/fifo_lab3_1";

@@ -13,6 +13,7 @@ direction_t random_direction()
     return random() % 4;
 }
 
+
 void new_position(int *x, int *y, direction_t direction)
 {
     switch (direction)
@@ -42,9 +43,17 @@ void new_position(int *x, int *y, direction_t direction)
     }
 }
 
+int find_char (clients client[] ,int check_char , int n_chars){
+    for (int i = 0 ; i <= n_chars ; i++){
+        if (check_char == client[i].ch)
+        return i;
+    }    
+    return -1;
+}
+
 int main()
 {
-
+    int n_chars = 0;
     int fd;
     // TODO_3
     // create and open the FIFO for reading
@@ -80,6 +89,7 @@ int main()
     int n;
     direction_t direction;
     message m_recieved;
+    clients client[100];
     while (1)
     {   
         // TODO_7
@@ -90,14 +100,19 @@ int main()
 			perror("read");
 			exit(-1);
 		}
-        int k = 2;
+        
         //TODO_8
         // process connection messages
         if (m_recieved.msg_type == 0){
-            ch = m_recieved.ch;
-            pos_x = WINDOW_SIZE/k;
-            pos_y = WINDOW_SIZE/k;
-            k++;
+            for (int i = 0 ; i <= n_chars ; i++){
+                if (m_recieved.ch == client[i].ch) printf("CARATER JA EM USO ERRO!"); 
+                else{  
+                ch = m_recieved.ch;
+                pos_x = WINDOW_SIZE/2;
+                pos_y = WINDOW_SIZE/2;
+                n_chars++;
+                }
+           }
             //escreve o carater na posição pré-definida
         }
         
@@ -105,6 +120,10 @@ int main()
         // process the movement message
         else{ //(m_recieved.msg_type == 1 )
             // recebe a direction e faz deslocação nesse sentido( usar função acima)
+
+            int n_client = find_char(client, m_recieved.ch, n_chars); //função que vai encontrar a posição de memória que pretendemos para este carater
+            pos_x = client[n_client].x;
+            pos_y = client[n_client].y;
             direction = m_recieved.direction;
             wmove(my_win, pos_x, pos_y);
             waddch(my_win,' ');
