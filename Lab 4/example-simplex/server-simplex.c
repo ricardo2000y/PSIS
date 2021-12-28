@@ -9,7 +9,7 @@
 #include "sock_dg.h"
  
 int main(){
-
+	//CODIGO GENERICO DAS SOCKETS DO SERVER 
 	int sock_fd;
 	sock_fd= socket(AF_UNIX, SOCK_DGRAM, 0);
 	if (sock_fd == -1){
@@ -28,11 +28,12 @@ int main(){
 		perror("bind");
 		exit(-1);
 	}
-
+	
 
 
 	printf(" socket created and binded \n ");
 	printf("Ready to receive messages\n");
+	//////////////////////////////////////////
 	char buffer[100];
 	int nbytes;
 	char linha[100];

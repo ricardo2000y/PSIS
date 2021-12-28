@@ -7,29 +7,25 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
 
 int main()
 {
     message connection, movement;
-    int fd;
+
     
     //TODO_4
     // create and open the FIFO for writing
-
-    while ((fd = open(fifo_loc, O_WRONLY)) == -1)
-    {
-        if (mkfifo(fifo_loc, 0666) != 0)
-        {
-            printf("problem creating the fifo\n");
-            exit(-1);
-        }
-        else
-        {
-            printf("fifo created\n");
-        }
-    }
-    printf("fifo just opened for writing\n");
-
+                            
+    int sock_fd= socket(AF_UNIX, SOCK_DGRAM, 0);
+	    if (sock_fd == -1){
+		    perror("socket: ");
+		    exit(-1);
+	    }
+	printf(" socket created \n Ready to send\n");
+    
     //TODO_5
     // read the character from the user
     char readch;
@@ -42,7 +38,11 @@ int main()
     // send connection message
     connection.ch = readch; 
     connection.msg_type = 0;
-    write(fd, &connection, sizeof(connection));
+
+    struct sockaddr_un server_addr;
+    server_addr.sun_family = AF_UNIX;
+    strcpy(server_addr.sun_path, SOCK_ADDRESS);
+    sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *) &server_addr, sizeof(server_addr));
 
     initscr();            /* Start curses mode 		*/
     cbreak();             /* Line buffering disabled	*/
@@ -89,7 +89,7 @@ int main()
         //TODO_10
         //send the movement message
         if (ch != 'x')
-            write(fd, &movement, sizeof(movement));
+           sendto(sock_fd, &movement, sizeof(movement), 0,(struct sockaddr *) &server_addr, sizeof(server_addr));
          
     } while (ch != 27);
 

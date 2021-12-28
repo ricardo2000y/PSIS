@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
-
 #include "sock_dg.h"
 
 int main(){ 
@@ -44,9 +43,7 @@ int main(){
 		printf("press Enter to send a new message\n");
 		fgets(linha, 100, stdin);
 
-		nbytes = sendto(sock_fd,
-	                    message, bytes_message, 0,
-	                    (const struct sockaddr *) &server_addr, sizeof(server_addr));
+		nbytes = sendto(sock_fd,message, bytes_message, 0, (const struct sockaddr *) &server_addr, sizeof(server_addr));
 		printf("sent %d byte of %s\n", nbytes, message);
 	}
 	close(sock_fd);
