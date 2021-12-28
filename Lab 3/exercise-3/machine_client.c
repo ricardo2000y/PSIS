@@ -35,6 +35,7 @@ int main()
     // machine will generate a random character and send to the server making the connection
     connection.ch = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"[random() % 52];
     connection.msg_type = 0;
+    movement.ch = connection.ch;
     write(fd, &connection, sizeof(connection));
 
     // TODO_6

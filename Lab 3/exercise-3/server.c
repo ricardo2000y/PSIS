@@ -44,11 +44,11 @@ void new_position(int *x, int *y, direction_t direction)
 }
 
 int find_char (clients client[] ,int check_char , int n_chars){
-    for (int i = 0 ; i <= n_chars ; i++){
-        if (check_char == client[i].ch)
-        return i;
-    }    
-    return -1;
+   int i =-1;
+    do {++i;
+        if (i> n_chars ) return -1;
+    }while (check_char != client[i].ch);
+    return i;
 }
 
 int main()
@@ -83,13 +83,9 @@ int main()
     wrefresh(my_win);
     
     /* information about the character */
-    int ch;
-    int pos_x;
-    int pos_y;
-    int n;
-    direction_t direction;
     message m_recieved;
     clients client[100];
+    int n, n_client;
     while (1)
     {   
         // TODO_7
@@ -103,16 +99,19 @@ int main()
         
         //TODO_8
         // process connection messages
+        int i = 0;
         if (m_recieved.msg_type == 0){
-            for (int i = 0 ; i <= n_chars ; i++){
+            
+            do{
                 if (m_recieved.ch == client[i].ch) printf("CARATER JA EM USO ERRO!"); 
-                else{  
-                ch = m_recieved.ch;
-                pos_x = WINDOW_SIZE/2;
-                pos_y = WINDOW_SIZE/2;
-                n_chars++;
-                }
-           }
+                i++;
+            }while  (i< n_chars);
+            n_client = n_chars;
+            client[n_chars].x = WINDOW_SIZE/2;
+            client[n_chars].y = WINDOW_SIZE/2;
+            client[n_chars].ch = m_recieved.ch;
+            n_chars ++;
+            
             //escreve o carater na posição pré-definida
         }
         
@@ -120,20 +119,16 @@ int main()
         // process the movement message
         else{ //(m_recieved.msg_type == 1 )
             // recebe a direction e faz deslocação nesse sentido( usar função acima)
-
-            int n_client = find_char(client, m_recieved.ch, n_chars); //função que vai encontrar a posição de memória que pretendemos para este carater
-            pos_x = client[n_client].x;
-            pos_y = client[n_client].y;
-            direction = m_recieved.direction;
-            wmove(my_win, pos_x, pos_y);
+            n_client = find_char(client, m_recieved.ch, n_chars); //função que vai encontrar a posição de memória que pretendemos para este carater
+            wmove(my_win, client[n_client].x, client[n_client].y);
             waddch(my_win,' ');
-            new_position(&pos_x, &pos_y,  direction);
+            new_position(&client[n_client].x, &client[n_client].y, m_recieved.direction);
         }
 
         /* draw mark on new position */
         
-        wmove(my_win, pos_x, pos_y);
-        waddch(my_win, ch | A_BOLD);
+        wmove(my_win, client[n_client].x, client[n_client].y);
+        waddch(my_win, client[n_client].ch | A_BOLD);
         wrefresh(my_win);
     }
     endwin(); /* End curses mode		  */
