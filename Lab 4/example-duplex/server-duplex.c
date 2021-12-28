@@ -40,14 +40,15 @@ int main(){
 
 
 	char reply_message[100];
+
 	struct sockaddr_un client_addr;
 	socklen_t client_addr_size = sizeof(struct sockaddr_un);
+	
 	while(1){
 		printf("press Enter to receive a new message\n");
 		fgets(linha, 100, stdin);
 		printf("waiting for 100 bytes\n");
-		nbytes = recvfrom(sock_fd, buffer, 100, 0,
-		                  ( struct sockaddr *)&client_addr, &client_addr_size);
+		nbytes = recvfrom(sock_fd, buffer, 100, 0,( struct sockaddr *)&client_addr, &client_addr_size);
 		printf("received %d bytes from %s:\n", nbytes, client_addr.sun_path);
 		for (int i = 0 ; i < nbytes ; i++){
 			printf("%d - %c \n", i, buffer[i]);

@@ -26,8 +26,7 @@ int main(){
 
 	printf("this process address is %s\n", local_client_addr.sun_path);
 	unlink(local_client_addr.sun_path);
-	int err = bind(sock_fd, (struct sockaddr *)&local_client_addr,
-							sizeof(local_client_addr));
+	int err = bind(sock_fd, (struct sockaddr *)&local_client_addr, sizeof(local_client_addr));
 	if(err == -1) {
 		perror("bind");
 		exit(-1);
