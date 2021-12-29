@@ -56,6 +56,17 @@ int find_char(clients client[], int check_char, int n_chars)
     return i;
 }
 
+check_if_on_top(clients client[], int n_client, int n_chars ) {
+    int i = -1;
+    do
+    {
+        ++i;
+        if (i > n_chars)
+            return 0;
+    } while ((client[n_client].x != client[i].x )&& (client[n_client].y != client[i].y) && (n_client =! i));
+    return 1;
+}
+
 int main()
 {
     int n_chars = 0;
@@ -149,7 +160,7 @@ int main()
         waddch(my_win, client[n_client].ch | A_BOLD);
         wrefresh(my_win);
     }
-
+    reply_message.msg_type = check_if_on_top(client,n_client , n_chars);
     nbytes = sendto(sock_fd, &reply_message, sizeof(reply_message), 0, (const struct sockaddr *)&client_addr, client_addr_size);
     endwin(); /* End curses mode		  */
     close(sock_fd);

@@ -12,7 +12,7 @@
 
 int main()
 {
-    message connection, movement;
+    message connection, movement,m_recieved;
     printf("My pid is %d (no other proces has the same pid :)\n", getpid());
 
     //TODO_4
@@ -89,12 +89,14 @@ int main()
 
         //TODO_10
         //send the movement message
-        if (ch != 'x')
-            sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
+        if (ch != 'x') sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
+
+        recvfrom(sock_fd, &m_recieved, sizeof(m_recieved), 0,(struct sockaddr *)&server_addr, sizeof(server_addr));
+		if (m_recieved.msg_type == 2) flash();
 
     } while (ch != 27);
 
     endwin(); /* End curses mode		  */
-
+    close(sock_fd);
     return 0;
 }

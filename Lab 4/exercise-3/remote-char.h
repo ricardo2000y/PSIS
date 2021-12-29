@@ -11,10 +11,9 @@ typedef enum direction_t
 } direction_t;
 typedef struct message
 {
-    int msg_type; // message type 0 == connection 1== movement 2 == on top 3== nothing ?
+    int msg_type; // message type| 0 == connection or do nothing | 1== movement or flash|
     int ch;
     direction_t direction;
-    //bool on_top;
 } message;
 
 typedef struct client
