@@ -89,15 +89,17 @@ int main()
     wrefresh(my_win);
     
     /* information about the character */
-    message m_recieved;
+    message m_recieved, reply_message;
     clients client[100];
     //char buffer[100];
+    struct sockaddr_un client_addr;
+	socklen_t client_addr_size = sizeof(struct sockaddr_un);
     int n_client, nbytes;
     while (1)
     {   
         // TODO_7
         // receive message from the clients
-        nbytes = recv(sock_fd, &m_recieved, sizeof(m_recieved), 0);
+        nbytes = recvfrom(sock_fd, &m_recieved, sizeof(m_recieved), 0,( struct sockaddr *)&client_addr, &client_addr_size);
 		if (nbytes <= 0)
 		{
 			perror("read");
@@ -138,7 +140,9 @@ int main()
         waddch(my_win, client[n_client].ch | A_BOLD);
         wrefresh(my_win);
     }
-    endwin(); /* End curses mode		  */
 
+    nbytes = sendto(sock_fd, &reply_message, sizeof(reply_message), 0,(const struct sockaddr *) &client_addr, client_addr_size);
+    endwin(); /* End curses mode		  */
+    close(sock_fd);
     return 0;
 }

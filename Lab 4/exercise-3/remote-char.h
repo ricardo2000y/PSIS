@@ -4,10 +4,10 @@
 // declaration the struct corresponding to the exchanged messages
 typedef enum direction_t {UP, DOWN, LEFT, RIGHT} direction_t;
 typedef struct message {
-    int msg_type;
+    int msg_type;// message type 0 == connection 1== movement 2 == on top 3== nothing ? 
     int ch;
     direction_t direction;
-    bool on_top; 
+    //bool on_top; 
 }message;
 
 typedef struct  client {
