@@ -18,12 +18,13 @@ int main()
     message connection, movement;
     //TODO_4
 
-    int sock_fd= socket(AF_UNIX, SOCK_DGRAM, 0);
-	    if (sock_fd == -1){
-		    perror("socket: ");
-		    exit(-1);
-	    }
-	printf(" socket created \n Ready to send\n");
+    int sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+    if (sock_fd == -1)
+    {
+        perror("socket: ");
+        exit(-1);
+    }
+    printf(" socket created \n Ready to send\n");
 
     //TODO_5
     // machine will generate a random character and send to the server making the connection
@@ -34,7 +35,7 @@ int main()
     struct sockaddr_un server_addr;
     server_addr.sun_family = AF_UNIX;
     strcpy(server_addr.sun_path, SOCK_ADDRESS);
-    sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *) &server_addr, sizeof(server_addr));
+    sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
     // TODO_6
     movement.msg_type = 1;
@@ -67,8 +68,7 @@ int main()
         }
         //TODO_9
         // movement is adding the arrow typed to the movement.ch
-       
-     
+
         //TODO_10
         sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
     }

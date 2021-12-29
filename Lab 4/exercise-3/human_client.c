@@ -10,39 +10,40 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-
 int main()
 {
     message connection, movement;
     printf("My pid is %d (no other proces has the same pid :)\n", getpid());
-    
+
     //TODO_4
     // create and open the FIFO for writing
-                            
-    int sock_fd= socket(AF_UNIX, SOCK_DGRAM, 0);
-	    if (sock_fd == -1){
-		    perror("socket: ");
-		    exit(-1);
-	    }
-	printf(" socket created \n Ready to send\n");
-    
+
+    int sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+    if (sock_fd == -1)
+    {
+        perror("socket: ");
+        exit(-1);
+    }
+    printf(" socket created \n Ready to send\n");
+
     //TODO_5
     // read the character from the user
     char readch;
-    do{
+    do
+    {
         printf("what is your character?: ");
-        readch = getchar(); 
-    }while(!isalpha(readch));
+        readch = getchar();
+    } while (!isalpha(readch));
 
     // TODO_6
     // send connection message
-    connection.ch = readch; 
+    connection.ch = readch;
     connection.msg_type = 0;
 
     struct sockaddr_un server_addr;
     server_addr.sun_family = AF_UNIX;
     strcpy(server_addr.sun_path, SOCK_ADDRESS);
-    sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *) &server_addr, sizeof(server_addr));
+    sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
     initscr();            /* Start curses mode 		*/
     cbreak();             /* Line buffering disabled	*/
@@ -81,16 +82,16 @@ int main()
             movement.direction = UP; //TODO_9// prepare the movement message
             break;
         default:
-            ch = 'x'; 
+            ch = 'x';
             break;
         }
         refresh(); /* Print it on to the real screen */
-        
+
         //TODO_10
         //send the movement message
         if (ch != 'x')
-           sendto(sock_fd, &movement, sizeof(movement), 0,(struct sockaddr *) &server_addr, sizeof(server_addr));
-         
+            sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
+
     } while (ch != 27);
 
     endwin(); /* End curses mode		  */
