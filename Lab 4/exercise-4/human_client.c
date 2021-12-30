@@ -12,19 +12,30 @@
 
 int main()
 {
-    message connection, movement,m_recieved;
-    printf("My pid is %d (no other proces has the same pid :)\n", getpid());
+    message connection, movement, m_recieved;
+    struct sockaddr_un client_addr, server_addr;
+    int ch, n = 0;
+    socklen_t server_addr_size = sizeof(struct sockaddr_un);
 
     //TODO_4
     // create and open the FIFO for writing
-
     int sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (sock_fd == -1)
     {
         perror("socket: ");
         exit(-1);
     }
-    printf(" socket created \n Ready to send\n");
+
+    client_addr.sun_family = AF_UNIX;
+    sprintf(client_addr.sun_path, "%s_%d", SOCK_ADDRESS, getpid());
+    unlink(client_addr.sun_path);
+    int err = bind(sock_fd, (struct sockaddr *)&client_addr, sizeof(client_addr));
+    if (err == -1)
+    {
+        perror("bind");
+        exit(-1);
+    }
+    printf("Socket created \nReady to send\nReady to recieve\n");
 
     //TODO_5
     // read the character from the user
@@ -39,8 +50,6 @@ int main()
     // send connection message
     connection.ch = readch;
     connection.msg_type = 0;
-
-    struct sockaddr_un server_addr;
     server_addr.sun_family = AF_UNIX;
     strcpy(server_addr.sun_path, SOCK_ADDRESS);
     sendto(sock_fd, &connection, sizeof(connection), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
@@ -50,11 +59,9 @@ int main()
     keypad(stdscr, TRUE); /* We get F1, F2 etc..		*/
     noecho();             /* Don't echo() while we do getch */
 
-    int ch;
-
     movement.msg_type = 1;
     movement.ch = connection.ch;
-    int n = 0;
+
     do
     {
         ch = getch();
@@ -89,10 +96,11 @@ int main()
 
         //TODO_10
         //send the movement message
-        if (ch != 'x') sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
-
-        recvfrom(sock_fd, &m_recieved, sizeof(m_recieved), 0,(struct sockaddr *)&server_addr, sizeof(server_addr));
-		if (m_recieved.msg_type == 2) flash();
+        if (ch != 'x')
+            sendto(sock_fd, &movement, sizeof(movement), 0, (struct sockaddr *)&server_addr, sizeof(server_addr));
+        recvfrom(sock_fd, &m_recieved, sizeof(m_recieved), 0, (struct sockaddr *)&server_addr, &server_addr_size);
+        if (m_recieved.msg_type == 1)
+            flash();
 
     } while (ch != 27);
 
