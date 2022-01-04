@@ -7,7 +7,7 @@ typedef struct remote_char_t
     char ch; 
     direction_t direction ;
     /* data */
-    int x, y; 
+    int x, y;
 }remote_char_t;
 
 //#define SOCKET_NAME "/tmp/sock_snail"

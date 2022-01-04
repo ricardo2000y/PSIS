@@ -122,12 +122,13 @@ int main()
         // 6.2 Step 2 (server.c)
         if(m.msg_type == 5){ // msg type = 5 -> new message
             // incrementar client
-            ++client;
+            
 
             remote_display_client[client].sin_family=client_addr.sin_family;
             remote_display_client[client].sin_addr=client_addr.sin_addr;
             remote_display_client[client].sin_port=client_addr.sin_port;
             //remote_display_client[client].sin_zero=
+            client++;
             
         }
         
@@ -178,10 +179,20 @@ int main()
             } 
             char remote_addr_str[100];
 		    int remote_port = ntohs(client_addr.sin_port);
+            remote_port = remote_port;
 		    if (inet_ntop(AF_INET, &client_addr.sin_addr, remote_addr_str, 100) == NULL){
 			    perror("converting remote addr: ");
 		    }
             sendto(sock_fd, &m, sizeof(m), 0, (const struct sockaddr *) &client_addr, client_addr_size);
+    
+    // fazer ciclo manda msg type 6 manda pos x y do client e char 
+            m.msg_type=6;
+            m.x=pos_x;
+            m.y=pos_y; 
+            m.ch=ch;
+            for(int i=0; i<client; i++){
+                sendto(sock_fd, &m, sizeof(m), 0, (const struct sockaddr *) &remote_display_client[i], client_addr_size);	
+            }
         }
         /* draw mark on new position */
         wmove(my_win, pos_x, pos_y);

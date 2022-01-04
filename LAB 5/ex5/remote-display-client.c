@@ -30,15 +30,7 @@ int main()
     printf("IP do servidor? \n");
     fgets(adress_keyboard, SIZE , stdin);// gets adress from user
     adress_keyboard[strlen(adress_keyboard)-1] = '\0';
-       
-
-     char linha[100];
-   	printf("What is the network address of the recipient? ");
-	fgets(linha, 100, stdin);
-	linha[strlen(linha)-1] = '\0';
-
-
-    
+          
 
 	initscr();		    	
 	cbreak();				
@@ -53,8 +45,8 @@ int main()
     int ch;
     int pos_x;
     int pos_y;
-    int n_bytes;
-    
+    //int n_bytes;
+
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(SOCK_PORT);
@@ -65,14 +57,17 @@ int main()
 
     remote_char_t m;
     m.msg_type = 5;
-    m.ch = ch;
     sendto(sock_fd, &m, sizeof(remote_char_t), 0, 
             (const struct sockaddr *)&server_addr, sizeof(server_addr));
     
     
     while (1){
-
+        recv(sock_fd, &m, sizeof(remote_char_t), 0);
+        
         if(m.msg_type == 6){
+            /*deletes old place */
+                wmove(my_win, pos_x, pos_y);
+                waddch(my_win,' ');
                 pos_x = m.x;
                 pos_y = m.y;
                 ch = m.ch;
