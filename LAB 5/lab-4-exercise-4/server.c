@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <string.h>
+#include <netinet/in.h>
+#include<arpa/inet.h>
 
 #define WINDOW_SIZE 15
 
@@ -23,6 +25,7 @@ direction_t random_direction(){
     return  random()%4;
 
 }
+
     void new_position(int* x, int *y, direction_t direction){
         switch (direction)
         {
@@ -52,7 +55,6 @@ direction_t random_direction(){
 }
 
 int find_ch_info(ch_info_t char_data[], int n_char, int ch){
-    int i;
     for (int i = 0 ; i < n_char; i++){
         if(ch == char_data[i].ch){
             return i;
@@ -72,24 +74,18 @@ int main()
 
     
     int sock_fd;
-    sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+    sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock_fd == -1){
 	    perror("socket: ");
 	    exit(-1);
     }
-    struct sockaddr_un local_addr;
-    local_addr.sun_family = AF_UNIX;
-    strcpy(local_addr.sun_path, SOCKET_NAME);
 
-    unlink(SOCKET_NAME);
-    int err = bind(sock_fd, 
-            (const struct sockaddr *)&local_addr, sizeof(local_addr));
-    if(err == -1) {
-	    perror("bind");
-	    exit(-1);
-    }
-
-
+    struct sockaddr_in local_addr;
+    local_addr.sin_family = AF_INET;
+    local_addr.sin_port = htons(SOCK_PORT);
+    local_addr.sin_addr.s_addr = INADDR_ANY;
+    bind(sock_fd, ( struct sockaddr *)&local_addr, sizeof(local_addr));
+ 
 	initscr();		    	
 	cbreak();				
     keypad(stdscr, TRUE);   
@@ -107,14 +103,15 @@ int main()
     remote_char_t m;
 
     direction_t  direction;
-    struct sockaddr_un client_addr;
+    struct sockaddr_in client_addr;
     socklen_t client_addr_size = sizeof(struct sockaddr_un);
+
 
     while (1)
     {
 
         n_bytes = recvfrom(sock_fd, &m, sizeof(remote_char_t), 0, 
-                        (const struct sockaddr *)&client_addr, &client_addr_size);
+                        ( struct sockaddr *)&client_addr, &client_addr_size);
         if (n_bytes!= sizeof(remote_char_t)){
             continue;
         }
@@ -159,8 +156,12 @@ int main()
             if (same > 0){
                 m.msg_type = 3;              
             } 
-            sendto(sock_fd, &m, sizeof(m), 0, 
-                    (const struct sockaddr *) &client_addr, client_addr_size);
+            char remote_addr_str[100];
+		    int remote_port = ntohs(client_addr.sin_port);
+		    if (inet_ntop(AF_INET, &client_addr.sin_addr, remote_addr_str, 100) == NULL){
+			    perror("converting remote addr: ");
+		    }
+            sendto(sock_fd, &m, sizeof(m), 0, (const struct sockaddr *) &client_addr, client_addr_size);
         }
         /* draw mark on new position */
         wmove(my_win, pos_x, pos_y);
@@ -168,6 +169,6 @@ int main()
         wrefresh(my_win);			
     }
   	endwin();			/* End curses mode		  */
-
+    
 	return 0;
 }

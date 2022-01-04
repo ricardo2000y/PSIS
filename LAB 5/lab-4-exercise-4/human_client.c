@@ -6,44 +6,38 @@
 #include <fcntl.h>  
 #include <ctype.h> 
 #include <stdlib.h>
-#include <sys/socket.h>
 #include <sys/un.h>
 #include <string.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<sys/socket.h>
+
 
 int main()
 {
-
-
-
-
     //TODO_4
-    // create and open the FIFO for writing
+    int SIZE = 50;
+    char adress_keyboard[SIZE];
     int sock_fd;
-    sock_fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+    sock_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock_fd == -1){
-	    perror("socket: ");
-	    exit(-1);
-    }  
-
-
-
-    struct sockaddr_un local_client_addr;
-    local_client_addr.sun_family = AF_UNIX;
-    sprintf(local_client_addr.sun_path,"%s_%d", SOCKET_NAME, getpid());
-
-    unlink(local_client_addr.sun_path);
-    int err = bind(sock_fd, (const struct sockaddr *) &local_client_addr, sizeof(local_client_addr));
-    if(err == -1) {
-        perror("bind");
+        perror("socket: ");
         exit(-1);
-    }
+    } 
+    printf("IP do servidor? \n");
+    fgets(adress_keyboard, SIZE , stdin);// gets adress from user
+    adress_keyboard[strlen(adress_keyboard)-1] = '\0';
+    
 
-
-
-
-    struct sockaddr_un server_addr;
-    server_addr.sun_family = AF_UNIX;
-    strcpy(server_addr.sun_path, SOCKET_NAME);
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(SOCK_PORT);
+    if( inet_pton(AF_INET, adress_keyboard, &server_addr.sin_addr) < 1){
+		printf("no valid address: \n");
+		exit(-1);
+	}
+    
+    
 
 
     //TODO_5

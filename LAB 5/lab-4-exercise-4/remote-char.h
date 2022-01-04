@@ -9,4 +9,5 @@ typedef struct remote_char_t
     /* data */
 }remote_char_t;
 
-#define SOCKET_NAME "/tmp/sock_snail"
+//#define SOCKET_NAME "/tmp/sock_snail"
+#define SOCK_PORT 4000

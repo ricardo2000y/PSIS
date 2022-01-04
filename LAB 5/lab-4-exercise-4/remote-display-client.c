@@ -7,11 +7,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <ctype.h>
-
-#include<netinet/in.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
-
-
 #include <ncurses.h>
 
 
