@@ -65,7 +65,9 @@ int main()
         recv(sock_fd, &m, sizeof(remote_char_t), 0);
         
         if(m.msg_type == 6){
-            /*deletes old place */
+        
+            if(isalpha(m.ch)){
+                /*deletes old place */
                 wmove(my_win, pos_x, pos_y);
                 waddch(my_win,' ');
                 pos_x = m.x;
@@ -73,7 +75,11 @@ int main()
                 ch = m.ch;
                 wmove(my_win, pos_x, pos_y);
                 waddch(my_win,ch| A_BOLD);
-                wrefresh(my_win);			
+                wrefresh(my_win);
+            }else{
+                continue;
+            }
+            			
         }
     }
   	endwin();			/* End curses mode		  */
